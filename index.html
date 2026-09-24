@@ -1,13 +1,94 @@
-</body> </html>
-<script>
-    console.log("Before loading EmulatorJS");
-</script>
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>SNES Emulator</title><style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        overflow: hidden;
+    }
 
-<script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+    #game {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+    }
 
-<script>
-    document.getElementById("status").textContent =
-        "EmulatorJS loader loaded successfully!";
+    #startScreen {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
 
-    console.log("After loading EmulatorJS");
-</script>
+    #startScreen button {
+        padding: 14px 24px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    #romInput {
+        display: none;
+    }
+</style>
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: #111;
+        overflow: hidden;
+    }
+
+    #game {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    #startScreen {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: #111;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+
+    #startScreen button {
+        padding: 14px 24px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+    #romInput {
+        display: none;
+    }
+</style>
+
+</head> <body> <div id="startScreen"> <h1>SNES Emulator</h1> <p>Select an SNES ROM from your Chromebook.</p>
+<button id="romButton">Choose SNES ROM</button>
+
+<input
+    id="romInput"
+    type="file"
+    accept=".sfc,.smc,.fig,.swc,.zip"
+>
+
+</div> <div id="game"></div> <script> const romButton = document.getElementById("romButton"); const romInput = document.getElementById("romInput"); const startScreen = document.getElementById("startScreen"); romButton.addEventListener("click", function () { romInput.click(); }); romInput.addEventListener("change", async function () { const file = romInput.files[0]; if (!file) return; try { const data = await file.arrayBuffer(); const blob = new Blob( [data], { type: "application/octet-stream" } ); window.EJS_gameUrl = URL.createObjectURL(blob); startScreen.style.display = "none"; if (window.EJS_start) { window.EJS_start(); } } catch (error) { console.error(error); alert("Could not load the ROM."); } }); </script> <script> EJS_player = "#game"; EJS_core = "snes"; /* * Use our locally hosted EmulatorJS files. */ EJS_pathtodata = "./emulatorjs/"; EJS_gameUrl = ""; EJS_startOnLoaded = false; </script> <script src="./emulatorjs/loader.js"></script> </body> </html>
