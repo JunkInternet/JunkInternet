@@ -1,31 +1,39 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>SNES Emulator</title>
-<style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background: #111;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNES Emulator</title>
 
-    #game {
-        width: 100%;
-        height: 100%;
-    }
-</style>
-<style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        width: 100%;
-        height: 100%;
-        background: #111;
-    }
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #111;
+        }
 
-    #game {
-        width: 100%;
-        height: 100%;
-    }
-</style>
+        #game {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
 
-</head> <body> <div id="game"></div> <script> EJS_player = "#game"; // EmulatorJS's SNES system identifier. EJS_core = "snes9x"; // Our self-hosted EmulatorJS data directory. EJS_pathtodata = "./emulatorjs/"; // EJS_gameUrl = ""; Don't attempt to load a game automatically. EJS_startOnLoaded = false; </script> <script src="./emulatorjs/loader.js"></script> </body> </html>
+<body>
+
+<div id="game"></div>
+
+<script>
+    EJS_player = "#game";
+    EJS_core = "snes9x";
+    EJS_pathtodata = "./emulatorjs/";
+    EJS_gameUrl = "";
+    EJS_startOnLoaded = false;
+</script>
+
+<script src="./emulatorjs/loader.js"></script>
+
+</body>
+</html>
