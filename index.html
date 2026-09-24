@@ -31,6 +31,7 @@
     #startScreen p {
         color: #bbb;
         margin-bottom: 25px;
+        text-align: center;
     }
 
     #romButton {
@@ -90,6 +91,7 @@
     #startScreen p {
         color: #bbb;
         margin-bottom: 25px;
+        text-align: center;
     }
 
     #romButton {
@@ -118,7 +120,13 @@
     }
 </style>
 
-</head> <body> <div id="startScreen"> <h1>SNES Emulator</h1> <p>Select an SNES ROM from your Chromebook.</p>
+</head> <body> <div id="startScreen"> <h1>SNES Emulator</h1>
+<p>
+    Choose an SNES ROM from your Chromebook.
+    <br>
+    The ROM is processed locally in your browser.
+</p>
+
 <button id="romButton">Choose SNES ROM</button>
 
 <input
@@ -127,4 +135,4 @@
     accept=".sfc,.smc,.fig,.swc,.zip"
 >
 
-</div> <div id="game"></div> <script> const romButton = document.getElementById("romButton"); const romInput = document.getElementById("romInput"); romButton.addEventListener("click", () => { romInput.click(); }); romInput.addEventListener("change", () => { const file = romInput.files[0]; if (!file) { return; } /* * Create a temporary local URL for the selected ROM. * The ROM remains on the Chromebook. */ const romURL = URL.createObjectURL(file); /* * Tell EmulatorJS which game to load. */ window.EJS_gameUrl = romURL; /* * Hide the start screen. */ document.getElementById("startScreen").style.display = "none"; /* * Start EmulatorJS. */ if (window.EJS_start) { window.EJS_start(); } }); </script> <script> EJS_player = "#game"; EJS_core = "snes"; EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/"; EJS_gameUrl = ""; EJS_startOnLoaded = false; </script> <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script> </body> </html>
+</div> <div id="game"></div> <script> let selectedROM = null; const romButton = document.getElementById("romButton"); const romInput = document.getElementById("romInput"); const startScreen = document.getElementById("startScreen"); romButton.addEventListener("click", function () { romInput.click(); }); romInput.addEventListener("change", async function () { const file = romInput.files[0]; if (!file) { return; } romButton.disabled = true; romButton.textContent = "Loading ROM..."; try { /* * Read the ROM into memory first. */ const data = await file.arrayBuffer(); /* * Make a Blob containing the ROM data. */ const blob = new Blob( [data], { type: "application/octet-stream" } ); /* * Create a temporary URL for the ROM. */ selectedROM = URL.createObjectURL(blob); /* * Tell EmulatorJS to use the local ROM. */ window.EJS_gameUrl = selectedROM; /* * Hide the file-selection screen. */ startScreen.style.display = "none"; /* * Start the emulator. */ if (window.EJS_start) { window.EJS_start(); } } catch (error) { console.error("ROM loading error:", error); romButton.disabled = false; romButton.textContent = "Choose SNES ROM"; alert( "The ROM could not be loaded. " + "Check the browser console for details." ); } }); </script> <script> EJS_player = "#game"; EJS_core = "snes"; EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/"; EJS_gameUrl = ""; EJS_startOnLoaded = false; </script> <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script> </body> </html>
